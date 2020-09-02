@@ -113,41 +113,65 @@ const engineerQuestions = [
     }
 ]
 
+const moreEmployeeQuestion = [
+    {
+        type: "confirm",
+        name: "more",
+        message: "More employees to add?",
+    }
+]
+
 
 async function askQuestions() {
     try {
 
-
-        // NEED TO RUN A LOOP THAT KEEPS ASKING FOR EMPLOYEE DATA UNTIL THE USER BREAKS OUT
-
+        // Initializing an empty array to hold all the employee objects
         const allEmployees = []
 
-        // Running inquirer.prompt on the questions array of objects
-        // Await the results and then store as the constant employeeAnswers
-        const employeeAnswers = await inquirer.prompt(employeeQuestions);
+        // Initializing a variable moreEmployees and setting it to true
+        // (This will be used with the while loop)
+        var moreEmployees = true;
 
-        // Running a switch case that is dependent on the results from employeeAnswers.employeeType
-        // This asks a supplemental series of questions, tailored to the type of employee
-        // Those supplemental answers are added to the employeeAnswers object
-        switch (employeeAnswers.employeeType) {
-            case "Manager": {
-                const managerAnswers = await inquirer.prompt(managerQuestions);
-                employeeAnswers.supplementalAnswers = managerAnswers;
-                break;
+        while (moreEmployees) {
+            // Running inquirer.prompt on the questions array of objects
+            // Await the results and then store as the constant employeeAnswers
+            const employeeAnswers = await inquirer.prompt(employeeQuestions);
+            
+            // Running a switch case that is dependent on the results from employeeAnswers.employeeType
+            // This asks a supplemental series of questions, tailored to the type of employee
+            // Those supplemental answers are added to the employeeAnswers object
+            switch (employeeAnswers.employeeType) {
+                case "Manager": {
+                    const managerAnswers = await inquirer.prompt(managerQuestions);
+                    employeeAnswers.supplementalAnswers = managerAnswers;
+                    break;
+                }
+                case "Intern": {
+                    const internAnswers = await inquirer.prompt(internQuestions);
+                    employeeAnswers.supplementalAnswers = internAnswers;
+                    break;
+                }
+                case "Engineer": {
+                    const engineerAnswers = await inquirer.prompt(engineerQuestions);
+                    employeeAnswers.supplementalAnswers = engineerAnswers;
+                    break;
+                }
             }
-            case "Intern": {
-                const internAnswers = await inquirer.prompt(internQuestions);
-                employeeAnswers.supplementalAnswers = internAnswers;
-                break;
-            }
-            case "Engineer": {
-                const engineerAnswers = await inquirer.prompt(engineerQuestions);
-                employeeAnswers.supplementalAnswers = engineerAnswers;
-                break;
-            }
+            
+            // Pushing the employeeAnswers object into the allEmployees array
+            allEmployees.push(employeeAnswers);
+
+            // Asking a question to the user if they want to input more employee data
+            // The question is a boolean, returning true or false, stored within an object
+            const moreEmployeesObject = await inquirer.prompt(moreEmployeeQuestion);
+
+            // Going in the moreEmployeesObject and going to the more key
+            // The value there will either be true or false
+            // Set that value as the value of the variable moreEmployees
+            // The while loop will only continue to run moreEmployees is true
+            moreEmployees = moreEmployeesObject.more;
         }
 
-        allEmployees.push(employeeAnswers);
         console.log(allEmployees);
 
 
