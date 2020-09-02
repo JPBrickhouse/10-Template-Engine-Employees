@@ -68,7 +68,7 @@ const employeeQuestions = [
     }
 ]
 
-const managerQuestions = [    
+const managerQuestions = [
     {
         type: "input",
         name: "officeNumber",
@@ -91,9 +91,26 @@ const engineerQuestions = [
         type: "input",
         name: "github",
         message: "Please enter your GitHub username (not the url, just the username):",
-        type:"string"
+        type: "string"
     }
 ]
+
+
+async function askQuestions() {
+    try {
+        const employeeAnswers = await inquirer.prompt(employeeQuestions);
+
+        console.log(employeeAnswers)
+
+
+    }
+    catch (err) {
+        // catching and console logging an error
+        console.log(err);
+    }
+}
+
+askQuestions();
 
 // HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
 // and Intern classes should all extend from a class named Employee; see the directions
