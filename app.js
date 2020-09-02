@@ -39,7 +39,16 @@ const employeeQuestions = [
         type: "input",
         name: "id",
         message: "What is the employee's id number?",
-        type: "number"
+        validate: function (id) {
+            var valid = isNaN(id);
+            if (valid) {
+                console.log("\nPlease enter a valid number")
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
     },
     {
         type: "input",
@@ -47,7 +56,7 @@ const employeeQuestions = [
         message: "What is the employee's email address?",
         // Validation code sourced from the following: https://gist.github.com/Amitabh-K/ae073eea3d5207efaddffde19b1618e8
         validate: function (email) {
-            var valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+            var valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
             if (valid) {
                 return true;
             } else {
@@ -73,7 +82,16 @@ const managerQuestions = [
         type: "input",
         name: "officeNumber",
         message: "What is the manager's office number?",
-        type: "number"
+        validate: function (id) {
+            var valid = isNaN(id);
+            if (valid) {
+                console.log("\nPlease enter a valid number")
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
     }
 ]
 
@@ -98,9 +116,39 @@ const engineerQuestions = [
 
 async function askQuestions() {
     try {
+
+
+        // NEED TO RUN A LOOP THAT KEEPS ASKING FOR EMPLOYEE DATA UNTIL THE USER BREAKS OUT
+
+        const allEmployees = []
+
+        // Running inquirer.prompt on the questions array of objects
+        // Await the results and then store as the constant employeeAnswers
         const employeeAnswers = await inquirer.prompt(employeeQuestions);
 
-        console.log(employeeAnswers)
+        // Running a switch case that is dependent on the results from employeeAnswers.employeeType
+        // This asks a supplemental series of questions, tailored to the type of employee
+        // Those supplemental answers are added to the employeeAnswers object
+        switch (employeeAnswers.employeeType) {
+            case "Manager": {
+                const managerAnswers = await inquirer.prompt(managerQuestions);
+                employeeAnswers.supplementalAnswers = managerAnswers;
+                break;
+            }
+            case "Intern": {
+                const internAnswers = await inquirer.prompt(internQuestions);
+                employeeAnswers.supplementalAnswers = internAnswers;
+                break;
+            }
+            case "Engineer": {
+                const engineerAnswers = await inquirer.prompt(engineerQuestions);
+                employeeAnswers.supplementalAnswers = engineerAnswers;
+                break;
+            }
+        }
+
+        allEmployees.push(employeeAnswers);
+        console.log(allEmployees);
 
 
     }
