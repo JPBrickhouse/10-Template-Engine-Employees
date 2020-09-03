@@ -226,7 +226,7 @@ async function buildingTheHTML() {
             return console.log(err);
         }
         else {
-            console.log('The file has been saved!');
+            console.log("Successfully wrote the team.html file!");
         }
     });
 }
