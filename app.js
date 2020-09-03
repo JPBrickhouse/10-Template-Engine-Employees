@@ -147,7 +147,7 @@ async function askQuestions() {
             // Running inquirer.prompt on the questions array of objects
             // Await the results and then store as the constant employeeAnswers
             const employeeAnswers = await inquirer.prompt(employeeQuestions);
-            
+
             // Running a switch case that is dependent on the results from employeeAnswers.employeeType
             // This asks a supplemental series of questions, tailored to the type of employee
             // Those supplemental answers are added to the employeeAnswers object
@@ -168,7 +168,7 @@ async function askQuestions() {
                     break;
                 }
             }
-            
+
             // Pushing the employeeAnswers object into the allEmployeesRawData array
             allEmployeesRawData.push(employeeAnswers);
 
@@ -189,36 +189,34 @@ async function askQuestions() {
         // Going through the raw data array and formatting it
         // (Each element is an employee object)
         allEmployeesRawData.forEach(element => {
-            var name = element.name;
-            var id = element.id;
-            var email = element.email;
-            var employeeType = element.employeeType;
+            const name = element.name;
+            const id = element.id;
+            const email = element.email;
+            const employeeType = element.employeeType;
             // Running a switch case dependent on the employee type
-            switch(employeeType) {
+            switch (employeeType) {
                 case "Manager": {
-                    var officeNumber = element.supplementalAnswers.officeNumber;
-                    var manager = new Manager(name,id,email,officeNumber);
+                    const officeNumber = element.supplementalAnswers.officeNumber;
+                    const manager = new Manager(name, id, email, officeNumber);
                     formattedAllEmployeesObject.push(manager);
                     break;
                 }
                 case "Intern": {
-                    var school = element.supplementalAnswers.school;
-                    var intern = new Intern(name,id,email,school);
+                    const school = element.supplementalAnswers.school;
+                    const intern = new Intern(name, id, email, school);
                     formattedAllEmployeesObject.push(intern);
                     break;
                 }
                 case "Engineer": {
-                    var github = element.supplementalAnswers.github;
-                    var engineer = new Engineer(name,id,email,github);
+                    const github = element.supplementalAnswers.github;
+                    const engineer = new Engineer(name, id, email, github);
                     formattedAllEmployeesObject.push(engineer);
                     break;
                 }
             }
         });
 
-        // console.log(formattedAllEmployeesObject);
-        return(formattedAllEmployeesObject);
-
+        return (formattedAllEmployeesObject);
     }
     catch (err) {
         // catching and console logging an error
@@ -226,12 +224,33 @@ async function askQuestions() {
     }
 }
 
-
+// Async function to build the content of the html file
 async function buildingTheHTML() {
-    
-    var formattedAllEmployeesObject = await askQuestions();
-    var outputHTML = await render(formattedAllEmployeesObject)
-    console.log(outputHTML);
+
+    // Awaiting the returned results from the function askQuestions()
+    // Storing the return results as formattedAllEmployeesObject
+    const formattedAllEmployeesObject = await askQuestions();
+
+    // Awaiting the returned results from the render function,
+    // passing it the formattedAllEmployeesObject
+    // Storing the returned results as outputHTML
+    const outputHTML = await render(formattedAllEmployeesObject)
+
+    // fs.writeFile requires the following arguments passed:
+    // file, data, callback function
+    // The file name is given by outputPath
+    // The data is the outputHTML
+    // The callback function checks if there's an error and console logs it
+    // Otherwise, it console logs the note saying "The file has been saved"
+    fs.writeFile(outputPath, outputHTML, function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        else {
+            console.log('The file has been saved!');
+        }
+    });
 }
 
+// Running the function buildingTheHTML
 buildingTheHTML();
