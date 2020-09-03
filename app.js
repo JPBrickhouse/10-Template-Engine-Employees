@@ -28,6 +28,12 @@ const render = require("./lib/htmlRenderer");
 // information; write your code to ask different questions via inquirer depending on
 // employee type.
 
+// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
+// and Intern classes should all extend from a class named Employee; see the directions
+// for further information. Be sure to test out each class and verify it generates an
+// object with the correct structure and methods. This structure will be crucial in order
+// for the provided `render` function to work! ```
+
 const employeeQuestions = [
     {
         type: "input",
@@ -125,8 +131,8 @@ const moreEmployeeQuestion = [
 async function askQuestions() {
     try {
 
-        // Initializing an empty array to hold all the employee objects
-        const allEmployees = []
+        // Initializing an empty array to hold all the raw data employee objects
+        const allEmployeesRawData = []
 
         // Initializing a variable moreEmployees and setting it to true
         // (This will be used with the while loop)
@@ -158,8 +164,8 @@ async function askQuestions() {
                 }
             }
             
-            // Pushing the employeeAnswers object into the allEmployees array
-            allEmployees.push(employeeAnswers);
+            // Pushing the employeeAnswers object into the allEmployeesRawData array
+            allEmployeesRawData.push(employeeAnswers);
 
             // Asking a question to the user if they want to input more employee data
             // The question is a boolean, returning true or false, stored within an object
@@ -172,8 +178,41 @@ async function askQuestions() {
             moreEmployees = moreEmployeesObject.more;
         }
 
-        console.log(allEmployees);
+        // Initializing an empty array to hold all the formatted employee objects
+        const formattedAllEmployeesObject = [];
 
+        // Going through the raw data array and formatting it
+        // (Each element is an employee object)
+        allEmployeesRawData.forEach(element => {
+            var name = element.name;
+            var id = element.id;
+            var email = element.email;
+            var employeeType = element.employeeType;
+            // Running a switch case dependent on the employee type
+            switch(employeeType) {
+                case "Manager": {
+                    var officeNumber = element.supplementalAnswers.officeNumber;
+                    var manager = new Manager(name,id,email,officeNumber);
+                    formattedAllEmployeesObject.push(manager);
+                    break;
+                }
+                case "Intern": {
+                    var school = element.supplementalAnswers.school;
+                    var intern = new Intern(name,id,email,school);
+                    formattedAllEmployeesObject.push(intern);
+                    break;
+                }
+                case "Engineer": {
+                    var github = element.supplementalAnswers.github;
+                    var engineer = new Engineer(name,id,email,github);
+                    formattedAllEmployeesObject.push(engineer);
+                    break;
+                }
+            }
+        });
+
+        console.log(formattedAllEmployeesObject);
+        return(formattedAllEmployeesObject);
 
     }
     catch (err) {
@@ -184,8 +223,3 @@ async function askQuestions() {
 
 askQuestions();
 
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
