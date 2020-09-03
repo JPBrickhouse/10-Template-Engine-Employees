@@ -33,7 +33,7 @@ A node.js command-line application that generates an HTML file, dynamically disp
 
 ## USAGE
 - To use the "Template Engine for Teams and Employees" application...
-- Use the command line to locate the clone repo and make it your current directory
+- Use the command line to locate the cloned repo and make it your current directory
 - Simply type `node app.js` in the command line
 - A series of prompts will inquire about the following items:
     - What is the employee's name?
@@ -51,10 +51,8 @@ A node.js command-line application that generates an HTML file, dynamically disp
     - If they select no, the prompts terminate
 - When the prompts have terminated and all the inquires have responses, the program generates an HTML file, dynamically displaying a team's employee data and credentials.
 
-
-PLACEHOLDER:
-Video showing usage of the successfully deployed application
-
+### [Video](https://drive.google.com/file/d/1_bJal9IGj56O66INB5FLBOPVpjCINFSx/) showing usage of the successfully deployed application:
+[https://drive.google.com/file/d/1_bJal9IGj56O66INB5FLBOPVpjCINFSx/](https://drive.google.com/file/d/1_bJal9IGj56O66INB5FLBOPVpjCINFSx/)
 
 ## LICENSE
 License: MIT License<br>
@@ -67,7 +65,7 @@ License: MIT License<br>
 - There are several tests included with the repo
 - These tests confirm that the classes and subclasses are built correctly
 - To run the tests...
-    - Use the command line to locate the clone repo and make it your current director
+    - Use the command line to locate the cloned repo and make it your current directory
     - Simply type `npm run test` in the command line
     - The output information will confirm whether the tests have passed or failed
 
