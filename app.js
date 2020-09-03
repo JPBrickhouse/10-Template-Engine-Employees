@@ -34,6 +34,7 @@ const render = require("./lib/htmlRenderer");
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
+// Questions to be asked for ALL employees
 const employeeQuestions = [
     {
         type: "input",
@@ -83,6 +84,7 @@ const employeeQuestions = [
     }
 ]
 
+// Questions to be asked ONLY for managers
 const managerQuestions = [
     {
         type: "input",
@@ -101,6 +103,7 @@ const managerQuestions = [
     }
 ]
 
+// Questions to be asked ONLY for interns
 const internQuestions = [
     {
         type: "input",
@@ -110,6 +113,7 @@ const internQuestions = [
     }
 ]
 
+// Questions to be asked ONLY for engineers
 const engineerQuestions = [
     {
         type: "input",
@@ -119,6 +123,7 @@ const engineerQuestions = [
     }
 ]
 
+// Question asking the user if they want to add more employee data
 const moreEmployeeQuestion = [
     {
         type: "confirm",
@@ -127,7 +132,7 @@ const moreEmployeeQuestion = [
     }
 ]
 
-
+// Async function to ask the user input questions from the command line
 async function askQuestions() {
     try {
 
@@ -211,7 +216,7 @@ async function askQuestions() {
             }
         });
 
-        console.log(formattedAllEmployeesObject);
+        // console.log(formattedAllEmployeesObject);
         return(formattedAllEmployeesObject);
 
     }
@@ -221,5 +226,12 @@ async function askQuestions() {
     }
 }
 
-askQuestions();
 
+async function buildingTheHTML() {
+    
+    var formattedAllEmployeesObject = await askQuestions();
+    var outputHTML = await render(formattedAllEmployeesObject)
+    console.log(outputHTML);
+}
+
+buildingTheHTML();
